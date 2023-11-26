@@ -13,3 +13,9 @@ go get github.com/spf13/viper
 ```shell
 go get github.com/go-chi/jwtauth/v5
 ```
+
+### biblioteca para teste unitarios com testify
+[Documentação do testify](https://github.com/stretchr/testify#suite-package)
+```shell
+go get github.com/stretchr/testify/suite
+```
