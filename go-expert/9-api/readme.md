@@ -19,3 +19,9 @@ go get github.com/go-chi/jwtauth/v5
 ```shell
 go get github.com/stretchr/testify/suite
 ```
+
+### biblioteca para db migration scripts com goose
+[Documentação do goose](https://github.com/pressly/goose)
+```shell
+go get github.com/pressly/goose/v3
+```

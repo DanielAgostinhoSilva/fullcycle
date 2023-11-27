@@ -3,7 +3,7 @@ version: "3"
 services:
   mysql:
     image: mysql:5.7
-    container_name: orders
+    container_name: db-api
     restart: always
     platform: linux/amd64
     environment:
@@ -12,6 +12,20 @@ services:
       MYSQL_PASSWORD: root
     ports:
       - 3306:3306
+    networks:
+      - dev
+
+  mysql-test:
+    image: mysql:5.7
+    container_name: db-api-test
+    restart: always
+    platform: linux/amd64
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: fullcycle-test
+      MYSQL_PASSWORD: root
+    ports:
+      - 3307:3306
     networks:
       - dev
 
