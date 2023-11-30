@@ -9,17 +9,21 @@ type UserRepository struct {
 	Db *sql.DB
 }
 
+func NewUserRepository(db *sql.DB) *UserRepository {
+	return &UserRepository{Db: db}
+}
+
 func (p *UserRepository) FindByEmail(email string) (*entity.User, error) {
-	var user *entity.User
+	var user entity.User
 	stmt, err := p.Db.Prepare("SELECT * FROM user WHERE email = ?")
 	if err != nil {
 		return nil, err
 	}
-	err = stmt.QueryRow(email).Scan(user.Id, user.Name, user.Email, user.Password)
-	return user, err
+	err = stmt.QueryRow(email).Scan(&user.Id, &user.Name, &user.Email, &user.Password)
+	return &user, err
 }
 
-func (p *UserRepository) Create(user entity.User) error {
+func (p *UserRepository) Create(user *entity.User) error {
 	stmt, err := p.Db.Prepare("INSERT INTO user (id, name, email, password) VALUES (?, ?, ?, ?)")
 	if err != nil {
 		return err
