@@ -21,7 +21,7 @@ type EnvConfig struct {
 	TokenAuth     *jwtauth.JWTAuth
 }
 
-func LoadConfig(filePath string) EnvConfig {
+func LoadConfig(filePath string) *EnvConfig {
 	var cfg EnvConfig
 	viper.SetConfigName("app_config")
 	viper.SetConfigType("env")
@@ -35,6 +35,6 @@ func LoadConfig(filePath string) EnvConfig {
 	if err != nil {
 		panic(err)
 	}
-	log.Println("arquivo .env carregado")
-	return cfg
+	log.Println(".env file loaded")
+	return &cfg
 }

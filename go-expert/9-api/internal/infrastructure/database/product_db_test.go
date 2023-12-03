@@ -102,10 +102,6 @@ func (suite ProductDbSuiteTest) Test_deve_deletar_um_produto_pelo_id() {
 	err = repository.DeleteById(product.ID)
 	suite.Nil(err)
 
-	//products, err := repository.FindAll()
-	//suite.Nil(err)
-	//suite.Len(products, 0)
-
 }
 
 func (suite ProductDbSuiteTest) Test_deve_atualizar_o_nome_e_o_price_de_um_produto() {

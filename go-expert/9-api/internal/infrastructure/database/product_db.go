@@ -11,6 +11,10 @@ type ProductRepository struct {
 	Db *sql.DB
 }
 
+func NewProductRepository(db *sql.DB) *ProductRepository {
+	return &ProductRepository{Db: db}
+}
+
 func (p *ProductRepository) Update(product *entity.Product) error {
 	_, err := p.FindByID(product.ID)
 	if err != nil {
@@ -22,10 +26,6 @@ func (p *ProductRepository) Update(product *entity.Product) error {
 	}
 	_, err = stmt.Exec(product.Name, product.Price)
 	return err
-}
-
-func NewProductRepository(db *sql.DB) *ProductRepository {
-	return &ProductRepository{Db: db}
 }
 
 func (p *ProductRepository) Create(product *entity.Product) error {
