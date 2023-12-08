@@ -8,7 +8,7 @@ Content-Type: application/json
 }
 
 ### Find by id
-GET http://localhost:8000/v1/products/c8960f8f-fa4d-47de-8333-aedb84122027 HTTP/1.1
+GET http://localhost:8000/v1/products/67f4c218-19af-4de8-ba5d-5798cb737feb HTTP/1.1
 
 ### Find by all
 GET http://localhost:8000/v1/products?page=1&size=10 HTTP/1.1
@@ -17,7 +17,7 @@ GET http://localhost:8000/v1/products?page=1&size=10 HTTP/1.1
 DELETE http://localhost:8000/v1/products/f95c292a-8331-42ef-9c38-9c17239b21ed HTTP/1.1
 
 ### Update product
-PUT http://localhost:8000/v1/products/c8960f8f-fa4d-47de-8333-aedb84122028 HTTP/1.1
+PUT http://localhost:8000/v1/products/67f4c218-19af-4de8-ba5d-5798cb737feb HTTP/1.1
 Content-Type: application/json
 
 {

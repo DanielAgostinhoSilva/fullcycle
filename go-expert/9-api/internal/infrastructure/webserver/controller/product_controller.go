@@ -3,65 +3,71 @@ package controller
 import (
 	"encoding/json"
 	"github.com/DanielAgostinhoSilva/fullcycle/9-api/internal/application/usecase/product"
-	"github.com/DanielAgostinhoSilva/fullcycle/9-api/internal/domain/entity"
 	"github.com/go-chi/chi/v5"
 	"net/http"
 	"strconv"
 )
 
 type ProductController struct {
-	repository entity.ProductInterface
+	findAllProductsUseCase   *product.FindAllProductsUseCase
+	deleteProductByIdUseCase *product.DeleteProductByIdUseCase
+	createProductUseCase     *product.CreateProductUseCase
+	findProductByIdUseCase   *product.FindProductByIdUseCase
+	updateProductByIdUseCase *product.UpdateProductByIdUseCase
 }
 
-func NewProductController(repository entity.ProductInterface) *ProductController {
+func NewProductController(
+	findAllProductsUseCase *product.FindAllProductsUseCase,
+	deleteProductByIdUseCase *product.DeleteProductByIdUseCase,
+	createProductUseCase *product.CreateProductUseCase,
+	findProductByIdUseCase *product.FindProductByIdUseCase,
+	updateProductByIdUseCase *product.UpdateProductByIdUseCase,
+) *ProductController {
 	return &ProductController{
-		repository: repository,
+		findAllProductsUseCase:   findAllProductsUseCase,
+		deleteProductByIdUseCase: deleteProductByIdUseCase,
+		createProductUseCase:     createProductUseCase,
+		findProductByIdUseCase:   findProductByIdUseCase,
+		updateProductByIdUseCase: updateProductByIdUseCase,
 	}
 }
 
 func (p *ProductController) FindAll(w http.ResponseWriter, r *http.Request) {
 	page, _ := strconv.Atoi(r.URL.Query().Get("page"))
 	size, _ := strconv.Atoi(r.URL.Query().Get("size"))
-	useCase := product.NewFindAllProductsUseCase(p.repository)
-	pageProductOutput, err := useCase.Execute(product.ProductPage{Page: page, Size: size})
+	pageProductOutput, err := p.findAllProductsUseCase.Execute(product.ProductPage{Page: page, Size: size})
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		panic(err)
 	}
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	err = json.NewEncoder(w).Encode(pageProductOutput)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		panic(err)
 	}
 
 }
 
 func (p *ProductController) DeleteById(w http.ResponseWriter, r *http.Request) {
 	productId := chi.URLParam(r, "id")
-	useCase := product.NewDeleteProductByIdUseCase(p.repository)
-	err := useCase.Execute(productId)
+	err := p.deleteProductByIdUseCase.Execute(productId)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
+		panic(err)
 	}
 	w.WriteHeader(http.StatusNoContent)
 }
 
 func (p *ProductController) FindById(w http.ResponseWriter, r *http.Request) {
 	productId := chi.URLParam(r, "id")
-	useCase := product.NewFindProductByIdUseCase(p.repository)
-	productOutput, err := useCase.Execute(productId)
+	productOutput, err := p.findProductByIdUseCase.Execute(productId)
 	if err != nil {
-		//http.Error(w, err.Error(), http.StatusBadRequest)
-		//return
 		panic(err)
 	}
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	err = json.NewEncoder(w).Encode(productOutput)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		panic(err)
 	}
 }
 
@@ -69,22 +75,19 @@ func (p *ProductController) Create(w http.ResponseWriter, r *http.Request) {
 	var productInput product.ProductDtoInputDTO
 	err := json.NewDecoder(r.Body).Decode(&productInput)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
+		panic(err)
 	}
 
-	createProductUseCase := product.NewCreateProductUseCase(p.repository)
-	productOutput, err := createProductUseCase.Execute(productInput)
+	productOutput, err := p.createProductUseCase.Execute(productInput)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
+		panic(err)
 	}
 
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	err = json.NewEncoder(w).Encode(productOutput)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		panic(err)
 	}
 
 }
@@ -94,19 +97,17 @@ func (p *ProductController) Update(w http.ResponseWriter, r *http.Request) {
 	var productInput product.ProductDtoInputDTO
 	err := json.NewDecoder(r.Body).Decode(&productInput)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
+		panic(err)
 	}
-	useCase := product.NewUpdateProductByIdUseCase(p.repository)
-	err = useCase.Execute(product.ProductUpdateInputDto{
+	err = p.updateProductByIdUseCase.Execute(product.ProductUpdateInputDto{
 		ProductId: productId,
 		Name:      productInput.Name,
 		Price:     productInput.Price,
 	})
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
+		panic(err)
 	}
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 }
 

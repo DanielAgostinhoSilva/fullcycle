@@ -46,7 +46,10 @@ func (p *ProductRepository) FindByID(id extenal.ID) (*entity.Product, error) {
 		return nil, err
 	}
 	err = stmt.QueryRow(id.String()).Scan(&product.ID, &product.Name, &product.Price, &product.CreatedAt)
-	return &product, err
+	if err != nil {
+		return nil, err
+	}
+	return &product, nil
 }
 
 func (p *ProductRepository) FindAll(page, limit int, sort string) ([]entity.Product, *database.Pageable, error) {

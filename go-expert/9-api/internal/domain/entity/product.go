@@ -15,10 +15,10 @@ var (
 )
 
 type Product struct {
-	ID        entity.ID `json:"id"`
-	Name      string    `json:"name"`
-	Price     float64   `json:"price"`
-	CreatedAt time.Time `json:"created_at"`
+	ID        entity.ID
+	Name      string
+	Price     float64
+	CreatedAt time.Time
 }
 
 func NewProduct(name string, price float64) (*Product, error) {

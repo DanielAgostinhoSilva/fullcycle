@@ -2,7 +2,9 @@ package database
 
 import (
 	"database/sql"
-	"github.com/DanielAgostinhoSilva/fullcycle/9-api/configs"
+	"github.com/DanielAgostinhoSilva/fullcycle/9-api/configs/database"
+	"github.com/DanielAgostinhoSilva/fullcycle/9-api/configs/enviroment"
+	"github.com/DanielAgostinhoSilva/fullcycle/9-api/configs/migration"
 	"github.com/DanielAgostinhoSilva/fullcycle/9-api/internal/domain/entity"
 	"github.com/stretchr/testify/suite"
 	"testing"
@@ -11,13 +13,13 @@ import (
 type ProductDbSuiteTest struct {
 	suite.Suite
 	db      *sql.DB
-	configs configs.EnvConfig
+	configs *enviroment.EnvConfig
 }
 
 func (suite *ProductDbSuiteTest) SetupSuite() {
-	suite.configs = configs.LoadConfig("../../../cmd/server/test.env")
-	configs.MigrationUP(suite.configs)
-	suite.db = configs.DatabaseInitialize(suite.configs)
+	suite.configs = enviroment.LoadConfig("../../../cmd/server/test.env")
+	migration.MigrationUP(suite.configs)
+	suite.db = database.InitializeDatabase(suite.configs)
 }
 
 func (suite *ProductDbSuiteTest) TearDownTest() {
@@ -32,7 +34,7 @@ func (suite *ProductDbSuiteTest) TearDownTest() {
 }
 
 func (suite *ProductDbSuiteTest) TearDownSuite() {
-	configs.MigrationDown(suite.configs)
+	migration.MigrationDown(suite.configs)
 }
 
 func (suite ProductDbSuiteTest) Test_deve_salva_um_produto_no_banco_de_dados() {

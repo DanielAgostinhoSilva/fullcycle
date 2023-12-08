@@ -25,3 +25,9 @@ go get github.com/stretchr/testify/suite
 ```shell
 go get github.com/pressly/goose/v3
 ```
+
+### biblioteca para de DI
+[Documentação do wire](https://github.com/google/wire/blob/main/docs/guide.md)
+```shell
+go get "github.com/google/wire"
+```

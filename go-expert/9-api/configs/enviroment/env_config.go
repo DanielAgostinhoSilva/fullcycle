@@ -1,4 +1,4 @@
-package configs
+package enviroment
 
 import (
 	"github.com/go-chi/jwtauth/v5"
