@@ -30,7 +30,25 @@ func NewProblemEntityInUsed(detail string) *Problem {
 	}
 }
 
-func NewInternalServerError() *Problem {
+func NewProblemBadRequest(detail string) *Problem {
+	return &Problem{
+		Status:    http.StatusBadRequest,
+		Timestamp: time.Now().Local(),
+		Title:     "Invalid data",
+		Detail:    detail,
+	}
+}
+
+func NewProblemUnauthorized(detail string) *Problem {
+	return &Problem{
+		Status:    http.StatusUnauthorized,
+		Timestamp: time.Now().Local(),
+		Title:     "Unauthorized user",
+		Detail:    detail,
+	}
+}
+
+func NewProblemInternalServerError() *Problem {
 	return &Problem{
 		Status:    http.StatusInternalServerError,
 		Timestamp: time.Now().Local(),

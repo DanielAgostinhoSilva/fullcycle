@@ -35,6 +35,7 @@ func LoadConfig(filePath string) *EnvConfig {
 	if err != nil {
 		panic(err)
 	}
+	cfg.TokenAuth = jwtauth.New("HS256", []byte(cfg.JwtSecret), nil)
 	log.Println(".env file loaded")
 	return &cfg
 }

@@ -14,8 +14,11 @@ func StartServer(wg sync.WaitGroup, configs *enviroment.EnvConfig, controllers .
 	defer wg.Done()
 
 	server := webserver.NewWebServer(configs.WebServerPort)
+	server.RegisterMiddleware(middleware.Heartbeat("/health"))
 	server.RegisterMiddleware(middleware.Logger)
-	server.RegisterMiddleware(pkgMiddleware.ErrorHandler)
+	server.RegisterMiddleware(pkgMiddleware.ExceptionHandler)
+	server.RegisterMiddleware(middleware.WithValue("jwt", configs.TokenAuth))
+	server.RegisterMiddleware(middleware.WithValue("jwExpiresIn", configs.JwExpiresIn))
 	for _, controller := range controllers {
 		server.AddController(controller)
 	}

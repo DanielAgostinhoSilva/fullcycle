@@ -8,7 +8,7 @@ Content-Type: application/json
 }
 
 ### Find by id
-GET http://localhost:8000/v1/products/67f4c218-19af-4de8-ba5d-5798cb737feb HTTP/1.1
+GET http://localhost:8000/v1/products/67f4c218-19af-4de8-ba5d-5798cb737fea HTTP/1.1
 
 ### Find by all
 GET http://localhost:8000/v1/products?page=1&size=10 HTTP/1.1

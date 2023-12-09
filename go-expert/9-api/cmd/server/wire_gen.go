@@ -33,7 +33,8 @@ func InitializeUserController(db *sql.DB) *controller.UserController {
 	userRepository := database.NewUserRepository(db)
 	createUserUseCase := user.NewCreateUserUseCase(userRepository)
 	findUserUseCase := user.NewFindUserUseCase(userRepository)
-	userController := controller.NewUserController(createUserUseCase, findUserUseCase)
+	validateUserUseCase := user.NewValidateUserUseCase(userRepository)
+	userController := controller.NewUserController(createUserUseCase, findUserUseCase, validateUserUseCase)
 	return userController
 }
 

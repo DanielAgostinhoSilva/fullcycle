@@ -13,7 +13,7 @@ func NewFindUserUseCase(userRepository entity.UserInterface) *FindUserUseCase {
 	return &FindUserUseCase{userRepository: userRepository}
 }
 
-func (f *FindUserUseCase) Execute(email string) (*UserDtoOutput, error) {
+func (f *FindUserUseCase) Execute(email string) (*UserOutput, error) {
 	user, err := f.userRepository.FindByEmail(email)
 	if err != nil {
 		return nil, err
@@ -23,7 +23,7 @@ func (f *FindUserUseCase) Execute(email string) (*UserDtoOutput, error) {
 		return nil, exception.NewEntityNotFound("user not found")
 	}
 
-	return &UserDtoOutput{
+	return &UserOutput{
 		Name:  user.Name,
 		Email: user.Email,
 	}, nil

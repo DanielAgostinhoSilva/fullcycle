@@ -1,16 +1,22 @@
 package user
 
-type UserDtoOutput struct {
+type UserOutput struct {
+	ID    string `json:"-"`
 	Name  string `json:"name"`
 	Email string `json:"email"`
 }
 
-type UserDtoInput struct {
+type UserInput struct {
 	Name     string
 	Email    string
 	Password string
 }
 
-type UserEmailDtoInput struct {
+type UserEmailInput struct {
 	Email string
+}
+
+type UserLoginInput struct {
+	Email    string
+	Password string
 }

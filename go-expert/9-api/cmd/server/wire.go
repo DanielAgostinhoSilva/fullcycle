@@ -41,6 +41,7 @@ func InitializeUserController(db *sql.DB) *controller.UserController {
 		setUserRepository,
 		user.NewCreateUserUseCase,
 		user.NewFindUserUseCase,
+		user.NewValidateUserUseCase,
 		controller.NewUserController,
 	)
 	return &controller.UserController{}

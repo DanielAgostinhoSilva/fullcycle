@@ -13,7 +13,7 @@ func NewCreateUserUseCase(userRepository entity.UserInterface) *CreateUserUseCas
 	return &CreateUserUseCase{userRepository: userRepository}
 }
 
-func (c *CreateUserUseCase) Execute(input UserDtoInput) error {
+func (c *CreateUserUseCase) Execute(input UserInput) error {
 	userFound, err := c.userRepository.FindByEmail(input.Email)
 	if err != nil {
 		return err
