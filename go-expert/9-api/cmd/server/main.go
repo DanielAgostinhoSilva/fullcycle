@@ -14,9 +14,10 @@ func main() {
 	db := database.InitializeDatabase(cfg)
 	defer db.Close()
 	productController := InitializeProductController(db)
+	userController := InitializeUserController(db)
 
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go webserver.StartServer(wg, cfg, productController)
+	go webserver.StartServer(wg, cfg, productController, userController)
 	wg.Wait()
 }

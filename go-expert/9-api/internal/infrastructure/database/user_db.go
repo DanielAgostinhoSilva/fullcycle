@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"errors"
 	"github.com/DanielAgostinhoSilva/fullcycle/9-api/internal/domain/entity"
 )
 
@@ -20,6 +21,9 @@ func (p *UserRepository) FindByEmail(email string) (*entity.User, error) {
 		return nil, err
 	}
 	err = stmt.QueryRow(email).Scan(&user.Id, &user.Name, &user.Email, &user.Password)
+	if errors.Is(err, sql.ErrNoRows) {
+		return nil, nil
+	}
 	return &user, err
 }
 

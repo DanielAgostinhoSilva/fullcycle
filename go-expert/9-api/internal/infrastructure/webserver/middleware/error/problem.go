@@ -21,6 +21,15 @@ func NewProblemNotFound(detail string) *Problem {
 	}
 }
 
+func NewProblemEntityInUsed(detail string) *Problem {
+	return &Problem{
+		Status:    http.StatusConflict,
+		Timestamp: time.Now().Local(),
+		Title:     "Resource is already in use",
+		Detail:    detail,
+	}
+}
+
 func NewInternalServerError() *Problem {
 	return &Problem{
 		Status:    http.StatusInternalServerError,

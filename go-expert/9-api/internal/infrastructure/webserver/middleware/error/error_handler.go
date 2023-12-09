@@ -20,6 +20,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		switch err.(type) {
 		case *exception.EntityNotFoundError:
 			handlerError(NewProblemNotFound(err.Error()), http.StatusNotFound, w)
+		case *exception.EntityInUsedError:
+			handlerError(NewProblemEntityInUsed(err.Error()), http.StatusConflict, w)
 		default:
 			handlerError(NewInternalServerError(), http.StatusInternalServerError, w)
 		}
