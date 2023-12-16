@@ -1,10 +1,12 @@
 package webserver
 
 import (
+	_ "github.com/DanielAgostinhoSilva/fullcycle/9-api/api"
 	"github.com/DanielAgostinhoSilva/fullcycle/9-api/configs/enviroment"
 	pkgMiddleware "github.com/DanielAgostinhoSilva/fullcycle/9-api/internal/infrastructure/webserver/middleware/error"
 	"github.com/DanielAgostinhoSilva/fullcycle/9-api/pkg/webserver"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/swaggo/http-swagger/v2"
 	"log"
 	"sync"
 )
@@ -13,7 +15,7 @@ func StartServer(wg sync.WaitGroup, configs *enviroment.EnvConfig, controllers .
 	log.Println("Starting web server on port " + configs.WebServerPort)
 	defer wg.Done()
 
-	server := webserver.NewWebServer(configs.WebServerPort)
+	server := webserver.NewWebServer(configs.WebServerPort, configs.TokenAuth)
 	server.RegisterMiddleware(middleware.Heartbeat("/health"))
 	server.RegisterMiddleware(middleware.Logger)
 	server.RegisterMiddleware(pkgMiddleware.ExceptionHandler)
@@ -22,5 +24,6 @@ func StartServer(wg sync.WaitGroup, configs *enviroment.EnvConfig, controllers .
 	for _, controller := range controllers {
 		server.AddController(controller)
 	}
+	server.AddHandler("GET", "/docs/*", httpSwagger.Handler(httpSwagger.URL("http://localhost:8000/docs/doc.json")))
 	server.Start()
 }

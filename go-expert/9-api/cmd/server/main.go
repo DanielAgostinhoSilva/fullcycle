@@ -8,6 +8,23 @@ import (
 	"sync"
 )
 
+// @title           Go Expert API Example
+// @version         1.0
+// @description     Product API with auhtentication
+// @termsOfService  http://swagger.io/terms/
+
+// @contact.name   Wesley Willians
+// @contact.url    http://www.fullcycle.com.br
+// @contact.email  atendimento@fullcycle.com.br
+
+// @license.name   Full Cycle License
+// @license.url    http://www.fullcycle.com.br
+
+// @host      localhost:8000
+// @BasePath  /v1
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
 func main() {
 	cfg := enviroment.LoadConfig("cmd/server/.env")
 	migration.MigrationUP(cfg)

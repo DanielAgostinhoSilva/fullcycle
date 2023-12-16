@@ -31,3 +31,12 @@ go get github.com/pressly/goose/v3
 ```shell
 go get "github.com/google/wire"
 ```
+
+### biblioteca para documentacao com swaggo
+[Documentação do openapi](https://github.com/swaggo/swag#getting-started)
+```shell
+go get "go install github.com/swaggo/swag/cmd/swag@latest"
+```
+
+### Swagger page
+[swagger](http://localhost:8000/docs/index.html)

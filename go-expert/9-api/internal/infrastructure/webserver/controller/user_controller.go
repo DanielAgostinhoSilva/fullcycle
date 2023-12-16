@@ -95,10 +95,12 @@ func (u *UserController) FindByEmail(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (u *UserController) Router(router chi.Router) {
-	router.Post("/", u.Create)
-	router.Get("/{email}", u.FindByEmail)
-	router.Get("/generate_token", u.GetJwtToken)
+func (u *UserController) Router(tokenAuth *jwtauth.JWTAuth) func(router chi.Router) {
+	return func(router chi.Router) {
+		router.Post("/", u.Create)
+		router.Get("/{email}", u.FindByEmail)
+		router.Post("/generate_token", u.GetJwtToken)
+	}
 }
 
 func (u *UserController) Path() string {

@@ -2,6 +2,7 @@ package webserver
 
 import (
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/jwtauth/v5"
 	"net/http"
 )
 
@@ -10,14 +11,16 @@ type WebServer struct {
 	Handlers      map[string]Handler
 	Controllers   []Controller
 	WebServerPort string
+	TokenAuth     *jwtauth.JWTAuth
 }
 
-func NewWebServer(serverPort string) *WebServer {
+func NewWebServer(serverPort string, tokenAuth *jwtauth.JWTAuth) *WebServer {
 	return &WebServer{
 		Router:        chi.NewRouter(),
 		Handlers:      make(map[string]Handler),
 		Controllers:   []Controller{},
 		WebServerPort: serverPort,
+		TokenAuth:     tokenAuth,
 	}
 }
 
@@ -38,7 +41,7 @@ func (s *WebServer) RegisterMiddleware(middleware func(http.Handler) http.Handle
 // start the server
 func (s *WebServer) Start() {
 	for _, controller := range s.Controllers {
-		s.Router.Route(controller.Path(), controller.Router)
+		s.Router.Route(controller.Path(), controller.Router(s.TokenAuth))
 	}
 	for path, handler := range s.Handlers {
 		s.Router.Method(handler.Method, path, handler.HandlerFunc)

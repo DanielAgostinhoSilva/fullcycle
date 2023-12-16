@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/DanielAgostinhoSilva/fullcycle/9-api/internal/application/usecase/product"
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/jwtauth/v5"
 	"net/http"
 	"strconv"
 )
@@ -111,12 +112,16 @@ func (p *ProductController) Update(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-func (p *ProductController) Router(router chi.Router) {
-	router.Post("/", p.Create)
-	router.Get("/{id}", p.FindById)
-	router.Get("/", p.FindAll)
-	router.Delete("/{id}", p.DeleteById)
-	router.Put("/{id}", p.Update)
+func (p *ProductController) Router(tokenAuth *jwtauth.JWTAuth) func(router chi.Router) {
+	return func(router chi.Router) {
+		router.Use(jwtauth.Verifier(tokenAuth))
+		router.Use(jwtauth.Authenticator(tokenAuth))
+		router.Post("/", p.Create)
+		router.Get("/{id}", p.FindById)
+		router.Get("/", p.FindAll)
+		router.Delete("/{id}", p.DeleteById)
+		router.Put("/{id}", p.Update)
+	}
 }
 
 func (p *ProductController) Path() string {
