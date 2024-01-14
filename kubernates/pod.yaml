@@ -8,9 +8,9 @@ spec:
   containers:
     - name: nginx-ct
       image: nginx:1.14.2
-#      resources:
-#        limits:
-#          memory: "128Mi"
-#          cpu: "500m"
+      resources:
+        limits:
+          memory: "128Mi"
+          cpu: "500m"
       ports:
         - containerPort: 80
