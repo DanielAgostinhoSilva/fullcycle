@@ -1,8 +1,8 @@
 package webserver
 
 import (
-	_ "github.com/DanielAgostinhoSilva/fullcycle/9-api/api"
 	"github.com/DanielAgostinhoSilva/fullcycle/9-api/configs/enviroment"
+	_ "github.com/DanielAgostinhoSilva/fullcycle/9-api/docs"
 	pkgMiddleware "github.com/DanielAgostinhoSilva/fullcycle/9-api/internal/infrastructure/webserver/middleware/error"
 	"github.com/DanielAgostinhoSilva/fullcycle/9-api/pkg/webserver"
 	"github.com/go-chi/chi/v5/middleware"

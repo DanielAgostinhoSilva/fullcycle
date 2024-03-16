@@ -20,3 +20,7 @@ type UserLoginInput struct {
 	Email    string
 	Password string
 }
+
+type UserToken struct {
+	AccessToken string `json:"access_token"`
+}

@@ -20,4 +20,4 @@ ps:
 .PHONY: docs
 
 docs:
-	swag init -g ../cmd/server/main.go -o ../api
+	swag init -g cmd/server/main.go

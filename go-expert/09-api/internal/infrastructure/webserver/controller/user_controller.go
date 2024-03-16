@@ -32,6 +32,17 @@ func NewUserController(
 	}
 }
 
+// GetJwtToken godoc
+// @Summary      Get a user JWT
+// @Description  Get a user JWT
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Param        request   body     user.UserLoginInput  true  "user credentials"
+// @Success      200  {object}  user.UserToken
+// @Failure      404  {object}  error.Problem
+// @Failure      500  {object}  error.Problem
+// @Router       /users/generate_token [post]
 func (u *UserController) GetJwtToken(w http.ResponseWriter, r *http.Request) {
 	jwt := r.Context().Value("jwt").(*jwtauth.JWTAuth)
 	jwtExpiresIn := r.Context().Value("jwExpiresIn").(int)
@@ -50,21 +61,27 @@ func (u *UserController) GetJwtToken(w http.ResponseWriter, r *http.Request) {
 		"exp": time.Now().Add(time.Second * time.Duration(jwtExpiresIn)).Unix(),
 	})
 
-	accessToken := struct {
-		AccessToken string `json:"access_token"`
-	}{
-		AccessToken: tokenString,
-	}
+	userKen := &user.UserToken{AccessToken: tokenString}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	err = json.NewEncoder(w).Encode(accessToken)
+	err = json.NewEncoder(w).Encode(userKen)
 	if err != nil {
 		panic(err)
 	}
 
 }
 
+// Create user godoc
+// @Summary      Create user
+// @Description  Create user
+// @Tags         users
+// @Accept       json
+// @Produce      json
+// @Param        request     body      user.UserInput  true  "user request"
+// @Success      201
+// @Failure      500         {object}  error.Problem
+// @Router       /users [post]
 func (u *UserController) Create(w http.ResponseWriter, r *http.Request) {
 	var userInput user.UserInput
 	err := json.NewDecoder(r.Body).Decode(&userInput)

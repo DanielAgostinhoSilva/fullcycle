@@ -40,3 +40,7 @@ go get "go install github.com/swaggo/swag/cmd/swag@latest"
 
 ### Swagger page
 [swagger](http://localhost:8000/docs/index.html)
+#### para gerar a dock deve rodar o comando 
+```shell
+swag init -g cmd/server/main.go
+```

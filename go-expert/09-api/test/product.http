@@ -26,6 +26,7 @@ Authorization: Bearer {{access_token}}
 
 ### Find by all
 GET http://localhost:8000/v1/products?page=1&size=10 HTTP/1.1
+Authorization: Bearer {{access_token}}
 
 ### Delete by id
 DELETE http://localhost:8000/v1/products/f95c292a-8331-42ef-9c38-9c17239b21ed HTTP/1.1

@@ -33,6 +33,19 @@ func NewProductController(
 	}
 }
 
+// FindAll godoc
+// @Summary      List products
+// @Description  get all products
+// @Tags         products
+// @Accept       json
+// @Produce      json
+// @Param        page      query     string  false  "page number"
+// @Param        size     query     string  false  "page size"
+// @Success      200       {array}   product.PageProductOutputDTO
+// @Failure      404       {object}  error.Problem
+// @Failure      500       {object}  error.Problem
+// @Router       /products [get]
+// @Security ApiKeyAuth
 func (p *ProductController) FindAll(w http.ResponseWriter, r *http.Request) {
 	page, _ := strconv.Atoi(r.URL.Query().Get("page"))
 	size, _ := strconv.Atoi(r.URL.Query().Get("size"))
@@ -72,6 +85,17 @@ func (p *ProductController) FindById(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// Create Product godoc
+// @Summary      Create product
+// @Description  Create products
+// @Tags         products
+// @Accept       json
+// @Produce      json
+// @Param        request     body      product.ProductDtoInputDTO  true  "product request"
+// @Success      201
+// @Failure      500         {object}  error.Problem
+// @Router       /products [post]
+// @Security ApiKeyAuth
 func (p *ProductController) Create(w http.ResponseWriter, r *http.Request) {
 	var productInput product.ProductDtoInputDTO
 	err := json.NewDecoder(r.Body).Decode(&productInput)

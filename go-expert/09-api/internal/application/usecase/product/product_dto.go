@@ -1,7 +1,7 @@
 package product
 
 import (
-	pkgDatabase "github.com/DanielAgostinhoSilva/fullcycle/9-api/pkg/database"
+	"github.com/DanielAgostinhoSilva/fullcycle/9-api/pkg/database"
 	"time"
 )
 
@@ -24,5 +24,5 @@ type ProductPage struct {
 
 type PageProductOutputDTO struct {
 	Content  []ProductOutPutDTO
-	Pageable pkgDatabase.Pageable
+	Pageable database.Pageable
 }
